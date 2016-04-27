@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<project name="memslap" default="compile">
+
+	<property name="src.dir" value="src" />
+	<property name="classes.dir" value="classes" />
+	<property name="lib.dir" value="lib" />
+	<property name="dist.dir" value="dist" />
+
+	<path id="master-classpath">
+		<fileset file="${lib.dir}/*.jar" />
+		<pathelement path="${classes.dir}" />
+	</path>
+
+	<target name="init">
+	</target>
+
+	<target name="compile" depends="init" description="compile the source files">
+		<mkdir dir="${classes.dir}" />
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" debug="true">
+			<classpath refid="master-classpath" />
+		</javac>
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="pack-xmemcached" depends="compile" description="make xmemcached-benchmark.jar file">
+		<mkdir dir="${dist.dir}" />
+		<pathconvert property="libs.project" pathsep=" ">
+			<mapper>
+				<chainedmapper>
+					<flattenmapper />
+					<globmapper from="*" to="lib/*" />
+				</chainedmapper>
+			</mapper>
+			<path>
+				<fileset dir="${lib.dir}">
+					<include name="**/*.jar" />
+				</fileset>
+			</path>
+		</pathconvert>
+		<jar destfile="${dist.dir}/xmemcached-benchmark.jar" basedir="${classes.dir}">
+			<manifest>
+				<attribute name="Main-Class" value="com.airjay.memcached.benchmark.xmemcached.Xmemcached" />
+				<attribute name="Class-Path" value=". ${libs.project}" />
+			</manifest>
+			<include name="com/airjay/memcached/benchmark/common/*.*" />
+			<include name="com/airjay/memcached/benchmark/xmemcached/*.*" />
+		</jar>
+		<copy todir="${dist.dir}/lib/">
+			<fileset dir="${lib.dir}">
+				<include name="**/*.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${dist.dir}">
+			<fileset dir="${classes.dir}">
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="pack-spymemcached" depends="compile" description="make spymemcached-benchmark.jar file">
+		<mkdir dir="${dist.dir}" />
+		<pathconvert property="libs.project" pathsep=" ">
+			<mapper>
+				<chainedmapper>
+					<flattenmapper />
+					<globmapper from="*" to="lib/*" />
+				</chainedmapper>
+			</mapper>
+			<path>
+				<fileset dir="${lib.dir}">
+					<include name="**/*.jar" />
+				</fileset>
+			</path>
+		</pathconvert>
+		<jar destfile="${dist.dir}/spymemcached-benchmark.jar" basedir="${classes.dir}">
+			<manifest>
+				<attribute name="Main-Class" value="com.airjay.memcached.benchmark.spymemcached.Spymemcached" />
+				<attribute name="Class-Path" value=". ${libs.project}" />
+			</manifest>
+			<include name="com/airjay/memcached/benchmark/common/*.*" />
+			<include name="com/airjay/memcached/benchmark/spymemcached/*.*" />
+		</jar>
+		<copy todir="${dist.dir}/lib/">
+			<fileset dir="${lib.dir}">
+				<include name="**/*.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${dist.dir}">
+			<fileset dir="${classes.dir}">
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="pack-java-memcached" depends="compile" description="make java-memcached-benchmark.jar file">
+		<mkdir dir="${dist.dir}" />
+		<pathconvert property="libs.project" pathsep=" ">
+			<mapper>
+				<chainedmapper>
+					<flattenmapper />
+					<globmapper from="*" to="lib/*" />
+				</chainedmapper>
+			</mapper>
+			<path>
+				<fileset dir="${lib.dir}">
+					<include name="**/*.jar" />
+				</fileset>
+			</path>
+		</pathconvert>
+		<jar destfile="${dist.dir}/java-memcached-benchmark.jar" basedir="${classes.dir}">
+			<manifest>
+				<attribute name="Main-Class" value="com.airjay.memcached.benchmark.java_memcached.JavaMemCached" />
+				<attribute name="Class-Path" value=". ${libs.project}" />
+			</manifest>
+			<include name="com/airjay/memcached/benchmark/common/*.*" />
+			<include name="com/airjay/memcached/benchmark/java_memcached/*.*" />
+		</jar>
+		<copy todir="${dist.dir}/lib/">
+			<fileset dir="${lib.dir}">
+				<include name="**/*.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${dist.dir}">
+			<fileset dir="${classes.dir}">
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="pack-couchbase" depends="compile" description="make couchbase-benchmark.jar file">
+		<mkdir dir="${dist.dir}" />
+		<pathconvert property="libs.project" pathsep=" ">
+			<mapper>
+				<chainedmapper>
+					<flattenmapper />
+					<globmapper from="*" to="lib/*" />
+				</chainedmapper>
+			</mapper>
+			<path>
+				<fileset dir="${lib.dir}">
+					<include name="**/*.jar" />
+				</fileset>
+			</path>
+		</pathconvert>
+		<jar destfile="${dist.dir}/couchbase-benchmark.jar" basedir="${classes.dir}">
+			<manifest>
+				<attribute name="Main-Class" value="com.airjay.memcached.benchmark.couchbase.Couchbase" />
+				<attribute name="Class-Path" value=". ${libs.project}" />
+			</manifest>
+			<include name="com/airjay/memcached/benchmark/common/*.*" />
+			<include name="com/airjay/memcached/benchmark/couchbase/*.*" />
+		</jar>
+		<copy todir="${dist.dir}/lib/">
+			<fileset dir="${lib.dir}">
+				<include name="**/*.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${dist.dir}">
+			<fileset dir="${classes.dir}">
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="pack" depends="pack-xmemcached,pack-spymemcached,pack-java-memcached,pack-couchbase" description="make .jar file" />
+
+	<target name="clean" description="Clean output dirs">
+		<delete dir="${classes.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+
+</project>
+
